@@ -13,10 +13,13 @@ model:[
  ,{  "label": "Flux", "value": "flux" }
  ,{  "label": "Flux-Dev", "value": "flux-dev" }
  ,{  "label": "Flux-Pro", "value": "flux-pro" }
+ ,{  "label": "midjourney-v6.1", "value": "midjourney-v6.1" }
+ ,{  "label": "midjourney-v6", "value": "midjourney-v6" }
+ ,{  "label": "midjourney-v5.2", "value": "midjourney-v5.2" }
  ,{  "label": "Flux.1.1-Pro", "value": "flux.1.1-pro" }
 ]
 });
-const st =ref({isGo:false });     
+const st =ref({isGo:false });
 const f = ref({size:'1024x1024', prompt:'',"model": "dall-e-3","n": 1});
 const isDisabled= computed(()=>{
     if(st.value.isGo) return true;
@@ -42,12 +45,12 @@ watch(()=>homeStore.myData.act,(n)=>{
         st.value.isGo=false;
         f.value.prompt='';
     }
-    if(n=='updateChat')  st.value.isGo=false;  
+    if(n=='updateChat')  st.value.isGo=false;
 })
 
 const dimensionsList= computed(()=>{
     if(f.value.model=='dall-e-2'){
-        return [{ 
+        return [{
                 "label": "1024px*1024px",
                 "value": "1024x1024"
             }, {
@@ -58,8 +61,8 @@ const dimensionsList= computed(()=>{
                 "value": "256x256"
             }
     ];
-    } 
-    return [{ 
+    }
+    return [{
                 "label": "1024px*1024px",
                 "value": "1024x1024"
             }, {
@@ -70,7 +73,7 @@ const dimensionsList= computed(()=>{
                 "value": "1024x1792"
             }
      ]
-     
+
 })
 watch(()=>f.value.model,(n)=>{
     f.value.size='1024x1024';
@@ -86,20 +89,20 @@ watch(()=>f.value.model,(n)=>{
     <n-select v-model:value="f.size" :options="dimensionsList"  filterable tag size="small"  class="!w-[70%]" :clearable="false" />
 </section>
 <div class="mb-1">
-     <n-input    type="textarea"  v-model:value="f.prompt"   :placeholder="$t('mjchat.prompt')" round clearable maxlength="500" show-count 
+     <n-input    type="textarea"  v-model:value="f.prompt"   :placeholder="$t('mjchat.prompt')" round clearable maxlength="500" show-count
       :autosize="{   minRows:3, maxRows:10 }" />
 </div>
 
 <div class="mb-4 flex justify-end items-center">
     <div class="flex ">
          <n-button type="primary" :block="true" :disabled="isDisabled" @click="create()"  >
-            <SvgIcon icon="mingcute:send-plane-fill" />   
-             {{ $t('mjchat.imgcreate') }} 
+            <SvgIcon icon="mingcute:send-plane-fill" />
+             {{ $t('mjchat.imgcreate') }}
         </n-button>
     </div>
 </div>
 
 <ul class="pt-4" v-html="$t('mjchat.dalleInfo')">
-   
+
 </ul>
 </template>
